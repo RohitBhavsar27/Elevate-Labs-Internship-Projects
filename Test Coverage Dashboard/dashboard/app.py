@@ -13,9 +13,7 @@ st.set_page_config(
 st.title("📊 Interactive Test Coverage Dashboard")
 
 # 1. Dynamic File Upload
-uploaded_file = st.file_uploader(
-    "Choose a coverage.json file", type="json"
-)
+uploaded_file = st.file_uploader("Choose a coverage.json file", type="json")
 
 if uploaded_file is not None:
     try:
@@ -64,14 +62,15 @@ if uploaded_file is not None:
     if not low_coverage_files.empty:
         with st.expander("🚨 Files with Low Coverage (< 50%)", expanded=True):
             st.dataframe(
-                low_coverage_files.style.format({"Coverage %": "{:.2f}%"}).highlight_max(
-                    axis=0, color="#ff4d4d"
-                ),
+                low_coverage_files.style.format(
+                    {"Coverage %": "{:.2f}%"}
+                ).highlight_max(axis=0, color="#ff4d4d"),
                 use_container_width=True,
             )
 
     # 3. Bar Chart Visualization
     st.subheader("📁 File-wise Coverage (%)")
+
     def get_color(percent):
         if percent < 50:
             return "#ff4d4d"  # Red
@@ -79,6 +78,7 @@ if uploaded_file is not None:
             return "#ffc107"  # Amber
         else:
             return "#28a745"  # Green
+
     coverage_df["color"] = coverage_df["Coverage %"].apply(get_color)
     st.bar_chart(
         coverage_df,
